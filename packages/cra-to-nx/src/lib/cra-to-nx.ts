@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-import { output } from '@nrwl/workspace/src/utils/output';
 import { execSync } from 'child_process';
 
 import { statSync } from 'fs-extra';
@@ -17,6 +16,7 @@ function isYarn() {
 }
 
 function addDependency(dep: string) {
+  const output = require('@nrwl/workspace/src/utils/output').output;
   output.log({ title: `📦 Adding dependency: ${dep}` });
   if (isYarn()) {
     execSync(`yarn add -D ${dep}`);

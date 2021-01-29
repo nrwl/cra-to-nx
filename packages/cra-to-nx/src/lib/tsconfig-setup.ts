@@ -1,5 +1,3 @@
-import { fileExists } from '@nrwl/workspace/src/utilities/fileutils';
-
 const fs = require('fs');
 const defaultTsConfig = {
   extends: '../../tsconfig.base.json',
@@ -14,6 +12,9 @@ const defaultTsConfigSpec = {
 };
 
 export function setupTsConfig() {
+  const fileExists = require('@nrwl/workspace/src/utilities/fileutils')
+    .fileExists;
+
   if (fileExists('apps/webapp/tsconfig.json')) {
     const json = require('apps/webapp/tsconfig.json');
     json.extends = '../../tsconfig.base.json';
