@@ -11,9 +11,7 @@
     "cra-to-nx": "src/index.js"
   },
   "dependencies": {
-    "shelljs": "^0.8.4",
     "tslib": "2.1.0",
-    "@nrwl/workspace": "^10.0.0",
-    "@nrwl/storybook": "^10.0.0"
+    "@nrwl/workspace": "^10.0.0"
   }
 }
