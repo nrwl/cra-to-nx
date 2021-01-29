@@ -1,9 +1,47 @@
 {
-  
-  
   "version": 2,
-  
-  "projects": {},
+  "projects": {
+    "cra-to-nx": {
+      "root": "packages/cra-to-nx",
+      "sourceRoot": "packages/cra-to-nx/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "packages/cra-to-nx/**/*.ts"
+            ]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": [
+            "coverage/packages/cra-to-nx"
+          ],
+          "options": {
+            "jestConfig": "packages/cra-to-nx/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "build": {
+          "executor": "@nrwl/node:package",
+          "outputs": [
+            "{options.outputPath}"
+          ],
+          "options": {
+            "outputPath": "dist/packages/cra-to-nx",
+            "tsConfig": "packages/cra-to-nx/tsconfig.lib.json",
+            "packageJson": "packages/cra-to-nx/package.json",
+            "main": "packages/cra-to-nx/src/index.ts",
+            "assets": [
+              "packages/cra-to-nx/*.md"
+            ]
+          }
+        }
+      }
+    }
+  },
   "cli": {
     "defaultCollection": "@nrwl/workspace"
   }
