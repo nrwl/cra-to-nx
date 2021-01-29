@@ -93,9 +93,19 @@ export async function createNxWorkspaceForReact() {
   --command "node ../../node_modules/.bin/react-app-rewired test --watchAll=false" \
   --cwd "apps/webapp"`);
 
-  sh.exec('git status --porcelain');
+  // sh.exec('git status --porcelain');
 
   // copySync(``) Copy the config-overrides here
+
+  /**
+   * https://nx.dev/latest/react/migration/migration-cra#5-customize-webpack
+   *
+   * create file apps/webapp/config-overrides.js
+   * with the contents
+   *
+   * Can I have it somewhere and just copy it?
+   */
+
   output.log({ title: 'Configuring environments' });
 
   execSync(`echo "SKIP_PREFLIGHT_CHECK=true" > .env`);
@@ -110,6 +120,34 @@ export async function createNxWorkspaceForReact() {
     'mv temp-workspace/{.editorconfig,.env,.eslintrc.json,.gitignore,.prettierignore,.prettierrc,.vscode} ./'
   );
   execSync('rm -rf temp-workspace');
+
+  if (fileExists('apps/webapp/tsconfig.json')) {
+    console.log('ts config exists, so update it');
+  } else {
+    sh.exec('touch apps/webapp/tsconfig.json');
+    execSync(`echo "{" > apps/webapp/tsconfig.json`);
+    execSync(
+      `echo "'extends': '../../tsconfig.base.json'" > apps/webapp/tsconfig.json`
+    );
+    execSync(`echo "}" > apps/webapp/tsconfig.json`);
+  }
+
+  /**
+   * If no tsconfig in app
+   * 1. create tsconfig with:
+   * {
+  "extends": "../../tsconfig.base.json",
+  ...
+}
+   *
+
+   If tsconfig in app
+   just add
+   {
+      "extends": "../../tsconfig.base.json",
+      ... 
+  }
+   */
 
   output.log({ title: '🎉 Done!' });
 }
