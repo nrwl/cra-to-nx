@@ -3,27 +3,11 @@ import { output } from '@nrwl/workspace/src/utils/output';
 import { execSync } from 'child_process';
 
 import { statSync } from 'fs-extra';
-// const inquirer = require('inquirer');
-const sh = require('shelljs');
-
-function directoryExists(filePath: string): boolean {
-  try {
-    return statSync(filePath).isDirectory();
-  } catch (err) {
-    return false;
-  }
-}
-
-function fileExists(filePath: string): boolean {
-  try {
-    return statSync(filePath).isFile();
-  } catch (err) {
-    return false;
-  }
-}
+import { addCRACommandsToWorkspaceJson } from './add-cra-commands-to-nx';
+import { setupTsConfig } from './tsconfig-setup';
+import { writeConfigOverrides } from './write-config-overrides';
 
 function isYarn() {
-  console.log('Checking if yarn');
   try {
     statSync('yarn.lock');
     return true;
@@ -33,7 +17,6 @@ function isYarn() {
 }
 
 function addDependency(dep: string) {
-  // const stdio = parsedArgs.verbose ? [0, 1, 2] : ['ignore', 'ignore', 'ignore'];
   output.log({ title: `📦 Adding dependency: ${dep}` });
   if (isYarn()) {
     execSync(`yarn add -D ${dep}`);
@@ -73,39 +56,9 @@ export async function createNxWorkspaceForReact() {
 
   output.log({ title: 'Initializing nx scripts' });
 
-  execSync(`nx g @nrwl/workspace:run-commands serve \
-  --project webapp \
-  --command "node ../../node_modules/.bin/react-app-rewired start" \
-  --cwd "apps/webapp"`);
+  addCRACommandsToWorkspaceJson();
 
-  execSync(`nx g @nrwl/workspace:run-commands build \
-  --project webapp \
-  --command "node ../../node_modules/.bin/react-app-rewired build" \
-  --cwd "apps/webapp"`);
-
-  execSync(`nx g @nrwl/workspace:run-commands lint \
-  --project webapp \
-  --command "node ../../node_modules/.bin/eslint src/**/*.tsx src/**/*.ts" \
-  --cwd "apps/webapp"`);
-
-  execSync(`nx g @nrwl/workspace:run-commands test \
-  --project webapp \
-  --command "node ../../node_modules/.bin/react-app-rewired test --watchAll=false" \
-  --cwd "apps/webapp"`);
-
-  // sh.exec('git status --porcelain');
-
-  // copySync(``) Copy the config-overrides here
-    // 2. How to write a file
-
-  /**
-   * https://nx.dev/latest/react/migration/migration-cra#5-customize-webpack
-   *
-   * create file apps/webapp/config-overrides.js
-   * with the contents
-   *
-   * Can I have it somewhere and just copy it?
-   */
+  writeConfigOverrides();
 
   output.log({ title: 'Configuring environments' });
 
@@ -122,36 +75,7 @@ export async function createNxWorkspaceForReact() {
   );
   execSync('rm -rf temp-workspace');
 
-  if (fileExists('apps/webapp/tsconfig.json')) {
-    console.log('ts config exists, so update it');
-    // 1. How do I update an existing file
-  } else {
-
-    // 2. How to write a file
-    sh.exec('touch apps/webapp/tsconfig.json');
-    execSync(`echo "{" > apps/webapp/tsconfig.json`);
-    execSync(
-      `echo "'extends': '../../tsconfig.base.json'" > apps/webapp/tsconfig.json`
-    );
-    execSync(`echo "}" > apps/webapp/tsconfig.json`);
-  }
-
-  /**
-   * If no tsconfig in app
-   * 1. create tsconfig with:
-   * {
-  "extends": "../../tsconfig.base.json",
-  ...
-}
-   *
-
-   If tsconfig in app
-   just add
-   {
-      "extends": "../../tsconfig.base.json",
-      ... 
-  }
-   */
+  setupTsConfig();
 
   output.log({ title: '🎉 Done!' });
 }
