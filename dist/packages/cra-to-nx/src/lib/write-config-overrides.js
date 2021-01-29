@@ -46,7 +46,7 @@ module.exports = {
 };
 `;
 function writeConfigOverrides() {
-    fs.writeFileSync('./config-overrides.js', configOverride);
+    fs.writeFileSync('apps/webapp/config-overrides.js', configOverride);
 }
 exports.writeConfigOverrides = writeConfigOverrides;
 //# sourceMappingURL=write-config-overrides.js.map

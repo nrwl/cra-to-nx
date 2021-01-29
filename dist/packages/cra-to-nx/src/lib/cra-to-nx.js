@@ -73,7 +73,9 @@ function createNxWorkspaceForReact() {
             title: '🧶 Adding npm packages to your new Nx workspace to support CRA',
         });
         child_process_1.execSync(`${isYarn() ? 'yarn add --dev' : 'npm i --save-dev'} react-scripts @testing-library/jest-dom eslint-config-react-app react-app-rewired`);
-        output.log({ title: '🎉 Done!' });
+        output.log({ title: '🎉 Done!',
+            bodyLines: [`Error fetching plugins.`],
+        });
     });
 }
 exports.createNxWorkspaceForReact = createNxWorkspaceForReact;

@@ -45,5 +45,5 @@ module.exports = {
 `;
 
 export function writeConfigOverrides() {
-  fs.writeFileSync('./config-overrides.js', configOverride);
+  fs.writeFileSync('apps/webapp/config-overrides.js', configOverride);
 }

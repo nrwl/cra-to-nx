@@ -104,5 +104,7 @@ export async function createNxWorkspaceForReact() {
     } react-scripts @testing-library/jest-dom eslint-config-react-app react-app-rewired`
   );
 
-  output.log({ title: '🎉 Done!' });
+  output.log({ title: '🎉 Done!',
+  bodyLines: [`Error fetching plugins.`],
+});
 }
