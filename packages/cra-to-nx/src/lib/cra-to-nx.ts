@@ -47,14 +47,6 @@ export async function createNxWorkspaceForReact() {
   execSync(`git restore .gitignore README.md package.json`);
 
   output.log({ title: '👋 Welcome to Nx!' });
-  output.log({
-    title: '📃 Adding npm packages to your new Nx workspace to support CRA',
-  });
-  execSync(
-    `${
-      isYarn() ? 'yarn add --dev' : 'npm i --save-dev'
-    } react-scripts @testing-library/jest-dom eslint-config-react-app react-app-rewired`
-  );
 
   output.log({ title: '🧹 Clearing unused files' });
   execSync(
@@ -86,7 +78,7 @@ export async function createNxWorkspaceForReact() {
 
   execSync(`echo "node_modules" >> .gitignore`);
 
-  output.log({ title: '🚚 Final folder restructuring.' });
+  output.log({ title: '🚚 Folder restructuring.' });
 
   process.chdir(`../`);
 
@@ -100,6 +92,17 @@ export async function createNxWorkspaceForReact() {
   output.log({ title: '📃 Add tsconfig files for jest and eslint' });
 
   setupTsConfig();
+
+  output.log({ title: '🙂 Please be patient, one final step remaining!' });
+
+  output.log({
+    title: '🧶 Adding npm packages to your new Nx workspace to support CRA',
+  });
+  execSync(
+    `${
+      isYarn() ? 'yarn add --dev' : 'npm i --save-dev'
+    } react-scripts @testing-library/jest-dom eslint-config-react-app react-app-rewired`
+  );
 
   output.log({ title: '🎉 Done!' });
 }
