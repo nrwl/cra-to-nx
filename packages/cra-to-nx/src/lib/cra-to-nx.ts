@@ -96,6 +96,7 @@ export async function createNxWorkspaceForReact() {
   // sh.exec('git status --porcelain');
 
   // copySync(``) Copy the config-overrides here
+    // 2. How to write a file
 
   /**
    * https://nx.dev/latest/react/migration/migration-cra#5-customize-webpack
@@ -123,7 +124,10 @@ export async function createNxWorkspaceForReact() {
 
   if (fileExists('apps/webapp/tsconfig.json')) {
     console.log('ts config exists, so update it');
+    // 1. How do I update an existing file
   } else {
+
+    // 2. How to write a file
     sh.exec('touch apps/webapp/tsconfig.json');
     execSync(`echo "{" > apps/webapp/tsconfig.json`);
     execSync(

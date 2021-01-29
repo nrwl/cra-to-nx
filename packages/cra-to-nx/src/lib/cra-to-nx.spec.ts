@@ -1,7 +1,5 @@
-import { craToNx } from './cra-to-nx';
-
 describe('craToNx', () => {
   it('should work', () => {
-    expect(craToNx()).toEqual('cra-to-nx');
+    expect('cra-to-nx').toEqual('cra-to-nx');
   });
 });
