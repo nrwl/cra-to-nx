@@ -113,15 +113,22 @@ export function setupTsConfig() {
     );
   }
 
-  if (fileExists('.eslintrc.json')) {
-    const json = require('.eslintrc.json');
-    json.rules = {
-      'react/react-in-jsx-scope': 'off',
-    };
-    fs.writeFileSync('.eslintrc.json', JSON.stringify(json, null, 2));
+  if (fileExists('apps/webapp/.eslintrc.json')) {
+    const json = require('apps/webapp/.eslintrc.json');
+    if (json['rules']) {
+      json['rules']['react/react-in-jsx-scope'] = 'off';
+    } else {
+      json.rules = {
+        'react/react-in-jsx-scope': 'off',
+      };
+    }
+    fs.writeFileSync(
+      'apps/webapp/.eslintrc.json',
+      JSON.stringify(json, null, 2)
+    );
   } else {
     fs.writeFileSync(
-      '.eslintrc.json',
+      'apps/webapp/.eslintrc.json',
       JSON.stringify(defaultEsLintRc, null, 2)
     );
   }
