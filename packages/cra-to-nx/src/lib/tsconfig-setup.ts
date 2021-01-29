@@ -114,7 +114,8 @@ export function setupTsConfig() {
   }
 
   if (fileExists('apps/webapp/.eslintrc.json')) {
-    const json = require('apps/webapp/.eslintrc.json');
+    const data = fs.readFileSync('.eslintrc.json');
+    const json = JSON.parse(data.toString());
     if (json['rules']) {
       json['rules']['react/react-in-jsx-scope'] = 'off';
     } else {

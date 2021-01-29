@@ -93,15 +93,21 @@ function setupTsConfig() {
     else {
         fs.writeFileSync('apps/webapp/tsconfig.spec.json', JSON.stringify(defaultTsConfigSpec, null, 2));
     }
-    if (fileExists('.eslintrc.json')) {
-        const json = require('.eslintrc.json');
-        json.rules = {
-            'react/react-in-jsx-scope': 'off',
-        };
-        fs.writeFileSync('.eslintrc.json', JSON.stringify(json, null, 2));
+    if (fileExists('apps/webapp/.eslintrc.json')) {
+        const data = fs.readFileSync('.eslintrc.json');
+        const json = JSON.parse(data.toString());
+        if (json['rules']) {
+            json['rules']['react/react-in-jsx-scope'] = 'off';
+        }
+        else {
+            json.rules = {
+                'react/react-in-jsx-scope': 'off',
+            };
+        }
+        fs.writeFileSync('apps/webapp/.eslintrc.json', JSON.stringify(json, null, 2));
     }
     else {
-        fs.writeFileSync('.eslintrc.json', JSON.stringify(defaultEsLintRc, null, 2));
+        fs.writeFileSync('apps/webapp/.eslintrc.json', JSON.stringify(defaultEsLintRc, null, 2));
     }
 }
 exports.setupTsConfig = setupTsConfig;
