@@ -15,7 +15,7 @@ function isYarn() {
   }
 }
 
-function addDependency(dep: string) {
+function addDevDependency(dep: string) {
   const output = require('@nrwl/workspace/src/utils/output').output;
   output.log({ title: `📦 Adding dependency: ${dep}` });
   if (isYarn()) {
@@ -25,8 +25,18 @@ function addDependency(dep: string) {
   }
 }
 
+function addDependency(dep: string) {
+  const output = require('@nrwl/workspace/src/utils/output').output;
+  output.log({ title: `📦 Adding dependency: ${dep}` });
+  if (isYarn()) {
+    execSync(`yarn add ${dep}`);
+  } else {
+    execSync(`npm i ${dep}`);
+  }
+}
+
 export async function createNxWorkspaceForReact() {
-  addDependency(`@nrwl/workspace`);
+  addDevDependency(`@nrwl/workspace`);
   const output = require('@nrwl/workspace/src/utils/output').output;
   output.log({ title: '🐳 Nx initialization' });
   execSync(
@@ -90,6 +100,7 @@ export async function createNxWorkspaceForReact() {
 
   output.log({ title: "📃 Extend the app's tsconfig.json from the base" });
   output.log({ title: '📃 Add tsconfig files for jest and eslint' });
+  output.log({ title: '📃 Disable react/react-in-jsx-scope eslint rule' });
 
   setupTsConfig();
 
@@ -101,10 +112,13 @@ export async function createNxWorkspaceForReact() {
   execSync(
     `${
       isYarn() ? 'yarn add --dev' : 'npm i --save-dev'
-    } react-scripts @testing-library/jest-dom eslint-config-react-app react-app-rewired`
+    } react-scripts @testing-library/jest-dom eslint-config-react-app react-app-rewired web-vitals`
   );
 
-  output.log({ title: '🎉 Done!',
-  bodyLines: [`Error fetching plugins.`],
-});
+  addDependency('web-vitals');
+
+  output.log({
+    title: '🎉 Done!',
+    bodyLines: [`You can now search about Nx.`],
+  });
 }
