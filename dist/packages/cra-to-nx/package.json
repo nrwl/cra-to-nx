@@ -1,0 +1,17 @@
+{
+  "name": "cra-to-nx",
+  "version": "1.0.9",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mandarini/cra-to-nx.git"
+  },
+  "main": "src/index.js",
+  "typings": "src/index.d.ts",
+  "bin": {
+    "cra-to-nx": "src/index.js"
+  },
+  "dependencies": {
+    "tslib": "2.1.0",
+    "@nrwl/workspace": "^11.0.0"
+  }
+}
