@@ -33,39 +33,60 @@ export async function createNxWorkspaceForReact() {
     `npx create-nx-workspace temp-workspace --appName=webapp --preset=react --style=css --nx-cloud`
   );
 
+  const P = ['\\', '|', '/', '-'];
+  let x = 0;
+  const loader = setInterval(() => {
+    process.stdout.write(`\r${P[x++]}`);
+    x %= P.length;
+  }, 250);
+
+  setTimeout(() => {
+    clearInterval(loader);
+  }, 5000);
+
   execSync(`git restore .gitignore README.md package.json`);
 
-  output.log({ title: '📃 Adding react scripts' });
+  output.log({ title: '👋 Welcome to Nx!' });
+  output.log({
+    title: '📃 Adding npm packages to your new Nx workspace to support CRA',
+  });
   execSync(
     `${
       isYarn() ? 'yarn add --dev' : 'npm i --save-dev'
     } react-scripts @testing-library/jest-dom eslint-config-react-app react-app-rewired`
   );
 
-  output.log({ title: 'Clearing unused files' });
+  output.log({ title: '🧹 Clearing unused files' });
   execSync(
     `rm -rf temp-workspace/apps/webapp/* temp-workspace/apps/webapp/{.babelrc,.browserslistrc} node_modules`
   );
   execSync(`git status`);
 
-  output.log({ title: 'Moving react files' });
+  output.log({ title: '🚚 Moving your React app in your new Nx workspace' });
   execSync(
     `mv ./{README.md,package.json,src,public} temp-workspace/apps/webapp`
   );
   process.chdir(`temp-workspace/`);
 
-  output.log({ title: 'Initializing nx scripts' });
+  output.log({ title: '🤹 Add CRA commands to workspace.json' });
 
   addCRACommandsToWorkspaceJson();
 
+  output.log({ title: '🧑‍🔧 Customize webpack' });
+
   writeConfigOverrides();
 
-  output.log({ title: 'Configuring environments' });
+  output.log({
+    title: '🛬 Skip CRA preflight check since Nx manages the monorepo',
+  });
 
   execSync(`echo "SKIP_PREFLIGHT_CHECK=true" > .env`);
+
+  output.log({ title: '🧶 Add all node_modules to .gitignore' });
+
   execSync(`echo "node_modules" >> .gitignore`);
 
-  output.log({ title: 'Final move' });
+  output.log({ title: '🚚 Final folder restructuring.' });
 
   process.chdir(`../`);
 
@@ -74,6 +95,9 @@ export async function createNxWorkspaceForReact() {
     'mv temp-workspace/{.editorconfig,.env,.eslintrc.json,.gitignore,.prettierignore,.prettierrc,.vscode} ./'
   );
   execSync('rm -rf temp-workspace');
+
+  output.log({ title: "📃 Extend the app's tsconfig.json from the base" });
+  output.log({ title: '📃 Add tsconfig files for jest and eslint' });
 
   setupTsConfig();
 

@@ -11,10 +11,15 @@ const defaultTsConfigSpec = {
   extends: './tsconfig.json',
 };
 
-export function setupTsConfig() {
-  const fileExists = require('@nrwl/workspace/src/utilities/fileutils')
-    .fileExists;
+function fileExists(filePath) {
+  try {
+    return fs.statSync(filePath).isFile();
+  } catch (err) {
+    return false;
+  }
+}
 
+export function setupTsConfig() {
   if (fileExists('apps/webapp/tsconfig.json')) {
     const json = require('apps/webapp/tsconfig.json');
     json.extends = '../../tsconfig.base.json';

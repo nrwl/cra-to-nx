@@ -1,6 +1,6 @@
 {
   "name": "cra-to-nx",
-  "version": "0.0.1",
+  "version": "1.0.8",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/mandarini/cra-to-nx.git"
@@ -12,6 +12,6 @@
   },
   "dependencies": {
     "tslib": "2.1.0",
-    "@nrwl/workspace": "^10.0.0"
+    "@nrwl/workspace": "^11.0.0"
   }
 }

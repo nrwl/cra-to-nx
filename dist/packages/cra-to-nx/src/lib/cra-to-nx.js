@@ -33,6 +33,15 @@ function createNxWorkspaceForReact() {
         const output = require('@nrwl/workspace/src/utils/output').output;
         output.log({ title: '🐳 Nx initialization' });
         child_process_1.execSync(`npx create-nx-workspace temp-workspace --appName=webapp --preset=react --style=css --nx-cloud`);
+        const P = ['\\', '|', '/', '-'];
+        let x = 0;
+        const loader = setInterval(() => {
+            process.stdout.write(`\r${P[x++]}`);
+            x %= P.length;
+        }, 250);
+        setTimeout(() => {
+            clearInterval(loader);
+        }, 5000);
         child_process_1.execSync(`git restore .gitignore README.md package.json`);
         output.log({ title: '📃 Adding react scripts' });
         child_process_1.execSync(`${isYarn() ? 'yarn add --dev' : 'npm i --save-dev'} react-scripts @testing-library/jest-dom eslint-config-react-app react-app-rewired`);
@@ -53,6 +62,7 @@ function createNxWorkspaceForReact() {
         child_process_1.execSync('mv temp-workspace/* ./');
         child_process_1.execSync('mv temp-workspace/{.editorconfig,.env,.eslintrc.json,.gitignore,.prettierignore,.prettierrc,.vscode} ./');
         child_process_1.execSync('rm -rf temp-workspace');
+        output.log({ title: 'Setting up tsconfigs' });
         tsconfig_setup_1.setupTsConfig();
         output.log({ title: '🎉 Done!' });
     });
