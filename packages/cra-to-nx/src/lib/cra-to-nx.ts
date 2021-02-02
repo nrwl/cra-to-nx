@@ -31,7 +31,7 @@ function addDependency(dep: string, dev?: boolean) {
 export async function createNxWorkspaceForReact() {
   checkForUncommittedChanges();
 
-  addDependency(`@nrwl/workspace`, true);
+  // addDependency(`@nrwl/workspace`, true);
   output.log({ title: '🐳 Nx initialization' });
 
   const reactAppName = readNameFromPackageJson();

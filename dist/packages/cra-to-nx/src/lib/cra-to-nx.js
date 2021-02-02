@@ -33,7 +33,7 @@ function addDependency(dep, dev) {
 function createNxWorkspaceForReact() {
     return tslib_1.__awaiter(this, void 0, void 0, function* () {
         check_for_uncommitted_changes_1.checkForUncommittedChanges();
-        addDependency(`@nrwl/workspace`, true);
+        // addDependency(`@nrwl/workspace`, true);
         output_1.output.log({ title: '🐳 Nx initialization' });
         const reactAppName = read_name_from_package_json_1.readNameFromPackageJson();
         child_process_1.execSync(`npx create-nx-workspace temp-workspace --appName=${reactAppName} --preset=react --style=css --nx-cloud`, { stdio: [0, 1, 2] });
@@ -42,7 +42,7 @@ function createNxWorkspaceForReact() {
         output_1.output.log({ title: '🧹 Clearing unused files' });
         child_process_1.execSync(`rm -rf temp-workspace/apps/${reactAppName}/* temp-workspace/apps/${reactAppName}/{.babelrc,.browserslistrc} node_modules`, { stdio: [0, 1, 2] });
         output_1.output.log({ title: '🚚 Moving your React app in your new Nx workspace' });
-        child_process_1.execSync(`mv ./{README.md,package.json,src,public${fileutils_1.fileExists(`tsconfig.json` ? ',tsconfig.json' : '')}} temp-workspace/apps/${reactAppName}`, { stdio: [0, 1, 2] });
+        child_process_1.execSync(`mv ./{README.md,package.json,src,public${fileutils_1.fileExists(`tsconfig.json`) ? ',tsconfig.json' : ''}} temp-workspace/apps/${reactAppName}`, { stdio: [0, 1, 2] });
         process.chdir(`temp-workspace/`);
         output_1.output.log({ title: '🤹 Add CRA commands to workspace.json' });
         add_cra_commands_to_nx_1.addCRACommandsToWorkspaceJson(reactAppName);
@@ -82,6 +82,17 @@ function createNxWorkspaceForReact() {
                 ` `,
                 `Prefer watching videos? Check out this free Nx course on Egghead.io.`,
                 `https://egghead.io/playlists/scale-react-development-with-nx-4038`,
+            ],
+        });
+        output_1.output.note({
+            title: 'Or, you can try the commands!',
+            bodyLines: [
+                `nx serve ${reactAppName}`,
+                `nx build ${reactAppName}`,
+                `nx lint ${reactAppName}`,
+                `nx test ${reactAppName}`,
+                ` `,
+                `https://nx.dev/latest/react/migration/migration-cra#10-try-the-commands`,
             ],
         });
     });

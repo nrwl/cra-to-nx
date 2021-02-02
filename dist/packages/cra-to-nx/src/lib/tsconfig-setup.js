@@ -63,7 +63,7 @@ const defaultEsLintRc = {
 };
 function setupTsConfig(appName) {
     if (fileutils_1.fileExists(`apps/${appName}/tsconfig.json`)) {
-        const json = require(`apps/${appName}/tsconfig.json`);
+        const json = fs.readFileSync(`apps/${appName}/tsconfig.json`);
         json.extends = '../../tsconfig.base.json';
         fs.writeFileSync(`apps/${appName}/tsconfig.json`, JSON.stringify(json, null, 2));
     }
@@ -71,7 +71,7 @@ function setupTsConfig(appName) {
         fs.writeFileSync(`apps/${appName}/tsconfig.json`, JSON.stringify(defaultTsConfig, null, 2));
     }
     if (fileutils_1.fileExists(`apps/${appName}/tsconfig.app.json`)) {
-        const json = require(`apps/${appName}/tsconfig.app.json`);
+        const json = fs.readFileSync(`apps/${appName}/tsconfig.app.json`);
         json.extends = './tsconfig.json';
         fs.writeFileSync(`apps/${appName}/tsconfig.app.json`, JSON.stringify(json, null, 2));
     }
@@ -79,7 +79,7 @@ function setupTsConfig(appName) {
         fs.writeFileSync(`apps/${appName}/tsconfig.app.json`, JSON.stringify(defaultTsConfigApp, null, 2));
     }
     if (fileutils_1.fileExists(`apps/${appName}/tsconfig.spec.json`)) {
-        const json = require(`apps/${appName}/tsconfig.spec.json`);
+        const json = fs.readFileSync(`apps/${appName}/tsconfig.spec.json`);
         json.extends = './tsconfig.json';
         fs.writeFileSync(`apps/${appName}/tsconfig.spec.json`, JSON.stringify(json, null, 2));
     }
