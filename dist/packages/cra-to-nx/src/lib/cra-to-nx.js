@@ -24,16 +24,15 @@ function isYarn() {
 function addDependency(dep, dev) {
     output_1.output.log({ title: `📦 Adding dependency: ${dep}` });
     if (isYarn()) {
-        child_process_1.execSync(`yarn add ${dev ? '-D ' : ''}${dep}`);
+        child_process_1.execSync(`yarn add ${dev ? '-D ' : ''}${dep}`, { stdio: [0, 1, 2] });
     }
     else {
-        child_process_1.execSync(`npm i ${dev ? '--save-dev ' : ''}${dep}`);
+        child_process_1.execSync(`npm i ${dev ? '--save-dev ' : ''}${dep}`, { stdio: [0, 1, 2] });
     }
 }
 function createNxWorkspaceForReact() {
     return tslib_1.__awaiter(this, void 0, void 0, function* () {
         check_for_uncommitted_changes_1.checkForUncommittedChanges();
-        // addDependency(`@nrwl/workspace`, true);
         output_1.output.log({ title: '🐳 Nx initialization' });
         const reactAppName = read_name_from_package_json_1.readNameFromPackageJson();
         child_process_1.execSync(`npx create-nx-workspace temp-workspace --appName=${reactAppName} --preset=react --style=css --nx-cloud`, { stdio: [0, 1, 2] });
