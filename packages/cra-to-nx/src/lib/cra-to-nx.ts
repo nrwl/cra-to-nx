@@ -45,12 +45,14 @@ export async function createNxWorkspaceForReact() {
 
   output.log({ title: '🧹 Clearing unused files' });
   execSync(
-    `rm -rf temp-workspace/apps/${reactAppName}/* temp-workspace/apps/${reactAppName}/{.babelrc,.browserslistrc} node_modules`
+    `rm -rf temp-workspace/apps/${reactAppName}/* temp-workspace/apps/${reactAppName}/{.babelrc,.browserslistrc} node_modules`,
+    { stdio: [0, 1, 2] }
   );
 
   output.log({ title: '🚚 Moving your React app in your new Nx workspace' });
   execSync(
-    `mv ./{README.md,package.json,src,public} temp-workspace/apps/${reactAppName}`
+    `mv ./{README.md,package.json,src,public} temp-workspace/apps/${reactAppName}`,
+    { stdio: [0, 1, 2] }
   );
   process.chdir(`temp-workspace/`);
 
@@ -66,21 +68,22 @@ export async function createNxWorkspaceForReact() {
     title: '🛬 Skip CRA preflight check since Nx manages the monorepo',
   });
 
-  execSync(`echo "SKIP_PREFLIGHT_CHECK=true" > .env`);
+  execSync(`echo "SKIP_PREFLIGHT_CHECK=true" > .env`, { stdio: [0, 1, 2] });
 
   output.log({ title: '🧶 Add all node_modules to .gitignore' });
 
-  execSync(`echo "node_modules" >> .gitignore`);
+  execSync(`echo "node_modules" >> .gitignore`, { stdio: [0, 1, 2] });
 
   output.log({ title: '🚚 Folder restructuring.' });
 
   process.chdir(`../`);
 
-  execSync('mv temp-workspace/* ./');
+  execSync('mv temp-workspace/* ./', { stdio: [0, 1, 2] });
   execSync(
-    'mv temp-workspace/{.editorconfig,.env,.eslintrc.json,.gitignore,.prettierignore,.prettierrc,.vscode} ./'
+    'mv temp-workspace/{.editorconfig,.env,.eslintrc.json,.gitignore,.prettierignore,.prettierrc,.vscode} ./',
+    { stdio: [0, 1, 2] }
   );
-  execSync('rm -rf temp-workspace');
+  execSync('rm -rf temp-workspace', { stdio: [0, 1, 2] });
 
   output.log({ title: "📃 Extend the app's tsconfig.json from the base" });
   output.log({ title: '📃 Add tsconfig files for jest and eslint' });
@@ -102,6 +105,14 @@ export async function createNxWorkspaceForReact() {
 
   output.log({
     title: '🎉 Done!',
-    bodyLines: [`You can now search about Nx.`],
+  });
+  output.note({
+    title: 'First time using Nx? Check out this interactive Nx tutorial.',
+    bodyLines: [
+      `https://nx.dev/react/tutorial/01-create-application`,
+      ` `,
+      `Prefer watching videos? Check out this free Nx course on Egghead.io.`,
+      `https://egghead.io/playlists/scale-react-development-with-nx-4038`,
+    ],
   });
 }

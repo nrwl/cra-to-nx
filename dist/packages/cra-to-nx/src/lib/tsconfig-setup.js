@@ -61,13 +61,6 @@ const defaultEsLintRc = {
         'react/react-in-jsx-scope': 'off',
     },
 };
-// function fileExists(filePath) {
-//   try {
-//     return fs.statSync(filePath).isFile();
-//   } catch (err) {
-//     return false;
-//   }
-// }
 function setupTsConfig(appName) {
     if (fileutils_1.fileExists(`apps/${appName}/tsconfig.json`)) {
         const json = require(`apps/${appName}/tsconfig.json`);

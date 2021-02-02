@@ -9,7 +9,6 @@ function checkForUncommittedChanges() {
         console.log('You have uncommited changes in your repository.');
         console.log('');
         console.log(gitResult.toString());
-        console.log('');
         console.log('Please commit your changes before running the migrator!');
         process.exit(1);
     }

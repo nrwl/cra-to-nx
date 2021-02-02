@@ -4,7 +4,6 @@ exports.readNameFromPackageJson = void 0;
 const fileutils_1 = require("@nrwl/workspace/src/utilities/fileutils");
 const fs = require('fs');
 function readNameFromPackageJson() {
-    console.log('called again');
     let appName = 'webapp';
     if (fileutils_1.fileExists('package.json')) {
         const data = fs.readFileSync('package.json');
