@@ -64,14 +64,6 @@ const defaultEsLintRc = {
   },
 };
 
-// function fileExists(filePath) {
-//   try {
-//     return fs.statSync(filePath).isFile();
-//   } catch (err) {
-//     return false;
-//   }
-// }
-
 export function setupTsConfig(appName: string) {
   if (fileExists(`apps/${appName}/tsconfig.json`)) {
     const json = require(`apps/${appName}/tsconfig.json`);

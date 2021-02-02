@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { output } from '@nrwl/workspace';
+import { output } from '@nrwl/workspace/src/utilities/output';
 import { execSync } from 'child_process';
 
 import { statSync } from 'fs-extra';
