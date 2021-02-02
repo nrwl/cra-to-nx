@@ -1,8 +1,10 @@
 #!/usr/bin/env node
+import { output } from '@nrwl/workspace';
 import { execSync } from 'child_process';
 
 import { statSync } from 'fs-extra';
 import { addCRACommandsToWorkspaceJson } from './add-cra-commands-to-nx';
+import { checkForUncommittedChanges } from './check-for-uncommitted-changes';
 import { readNameFromPackageJson } from './read-name-from-package-json';
 import { setupTsConfig } from './tsconfig-setup';
 import { writeConfigOverrides } from './write-config-overrides';
@@ -17,7 +19,6 @@ function isYarn() {
 }
 
 function addDependency(dep: string, dev?: boolean) {
-  const output = require('@nrwl/workspace/src/utils/output').output;
   output.log({ title: `📦 Adding dependency: ${dep}` });
   if (isYarn()) {
     execSync(`yarn add ${dev ? '-D ' : ''}${dep}`);
@@ -27,17 +28,15 @@ function addDependency(dep: string, dev?: boolean) {
 }
 
 export async function createNxWorkspaceForReact() {
-  /**
-   * Here check for uncommitted files
-   */
+  checkForUncommittedChanges();
 
   addDependency(`@nrwl/workspace`, true);
-  const output = require('@nrwl/workspace/src/utils/output').output;
   output.log({ title: '🐳 Nx initialization' });
 
   const reactAppName = readNameFromPackageJson();
   execSync(
-    `npx create-nx-workspace temp-workspace --appName=${reactAppName} --preset=react --style=css --nx-cloud`
+    `npx create-nx-workspace temp-workspace --appName=${reactAppName} --preset=react --style=css --nx-cloud`,
+    { stdio: [0, 1, 2] }
   );
 
   execSync(`git restore .gitignore README.md package.json`);
