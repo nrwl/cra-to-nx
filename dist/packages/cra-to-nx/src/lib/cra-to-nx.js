@@ -39,9 +39,9 @@ function createNxWorkspaceForReact() {
         child_process_1.execSync(`git restore .gitignore README.md package.json`);
         output_1.output.log({ title: '👋 Welcome to Nx!' });
         output_1.output.log({ title: '🧹 Clearing unused files' });
-        child_process_1.execSync(`rm -rf temp-workspace/apps/${reactAppName}/* temp-workspace/apps/${reactAppName}/{.babelrc,.browserslistrc} node_modules`);
+        child_process_1.execSync(`rm -rf temp-workspace/apps/${reactAppName}/* temp-workspace/apps/${reactAppName}/{.babelrc,.browserslistrc} node_modules`, { stdio: [0, 1, 2] });
         output_1.output.log({ title: '🚚 Moving your React app in your new Nx workspace' });
-        child_process_1.execSync(`mv ./{README.md,package.json,src,public} temp-workspace/apps/${reactAppName}`);
+        child_process_1.execSync(`mv ./{README.md,package.json,src,public} temp-workspace/apps/${reactAppName}`, { stdio: [0, 1, 2] });
         process.chdir(`temp-workspace/`);
         output_1.output.log({ title: '🤹 Add CRA commands to workspace.json' });
         add_cra_commands_to_nx_1.addCRACommandsToWorkspaceJson(reactAppName);
@@ -50,14 +50,14 @@ function createNxWorkspaceForReact() {
         output_1.output.log({
             title: '🛬 Skip CRA preflight check since Nx manages the monorepo',
         });
-        child_process_1.execSync(`echo "SKIP_PREFLIGHT_CHECK=true" > .env`);
+        child_process_1.execSync(`echo "SKIP_PREFLIGHT_CHECK=true" > .env`, { stdio: [0, 1, 2] });
         output_1.output.log({ title: '🧶 Add all node_modules to .gitignore' });
-        child_process_1.execSync(`echo "node_modules" >> .gitignore`);
+        child_process_1.execSync(`echo "node_modules" >> .gitignore`, { stdio: [0, 1, 2] });
         output_1.output.log({ title: '🚚 Folder restructuring.' });
         process.chdir(`../`);
-        child_process_1.execSync('mv temp-workspace/* ./');
-        child_process_1.execSync('mv temp-workspace/{.editorconfig,.env,.eslintrc.json,.gitignore,.prettierignore,.prettierrc,.vscode} ./');
-        child_process_1.execSync('rm -rf temp-workspace');
+        child_process_1.execSync('mv temp-workspace/* ./', { stdio: [0, 1, 2] });
+        child_process_1.execSync('mv temp-workspace/{.editorconfig,.env,.eslintrc.json,.gitignore,.prettierignore,.prettierrc,.vscode} ./', { stdio: [0, 1, 2] });
+        child_process_1.execSync('rm -rf temp-workspace', { stdio: [0, 1, 2] });
         output_1.output.log({ title: "📃 Extend the app's tsconfig.json from the base" });
         output_1.output.log({ title: '📃 Add tsconfig files for jest and eslint' });
         output_1.output.log({ title: '📃 Disable react/react-in-jsx-scope eslint rule' });
@@ -73,7 +73,15 @@ function createNxWorkspaceForReact() {
         addDependency('web-vitals', true);
         output_1.output.log({
             title: '🎉 Done!',
-            bodyLines: [`You can now search about Nx.`],
+        });
+        output_1.output.note({
+            title: 'First time using Nx? Check out this interactive Nx tutorial.',
+            bodyLines: [
+                `https://nx.dev/react/tutorial/01-create-application`,
+                ` `,
+                `Prefer watching videos? Check out this free Nx course on Egghead.io.`,
+                `https://egghead.io/playlists/scale-react-development-with-nx-4038`,
+            ],
         });
     });
 }

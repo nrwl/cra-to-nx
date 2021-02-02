@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import { fileExists } from '@nrwl/workspace/src/utilities/fileutils';
 import { output } from '@nrwl/workspace/src/utilities/output';
 import { execSync } from 'child_process';
 
@@ -39,7 +40,7 @@ export async function createNxWorkspaceForReact() {
     { stdio: [0, 1, 2] }
   );
 
-  execSync(`git restore .gitignore README.md package.json`);
+  execSync(`git restore .gitignore README.md package.json tsconfig.json`);
 
   output.log({ title: '👋 Welcome to Nx!' });
 
@@ -51,7 +52,9 @@ export async function createNxWorkspaceForReact() {
 
   output.log({ title: '🚚 Moving your React app in your new Nx workspace' });
   execSync(
-    `mv ./{README.md,package.json,src,public} temp-workspace/apps/${reactAppName}`,
+    `mv ./{README.md,package.json,src,public${fileExists(
+      `tsconfig.json` ? ',tsconfig.json' : ''
+    )}} temp-workspace/apps/${reactAppName}`,
     { stdio: [0, 1, 2] }
   );
   process.chdir(`temp-workspace/`);

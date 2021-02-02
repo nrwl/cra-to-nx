@@ -1,6 +1,6 @@
 {
   "name": "cra-to-nx",
-  "version": "1.0.4",
+  "version": "0.1.0",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/mandarini/cra-to-nx.git"
