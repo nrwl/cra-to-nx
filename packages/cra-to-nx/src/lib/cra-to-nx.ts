@@ -3,6 +3,7 @@ import { execSync } from 'child_process';
 
 import { statSync } from 'fs-extra';
 import { addCRACommandsToWorkspaceJson } from './add-cra-commands-to-nx';
+import { readNameFromPackageJson } from './read-name-from-package-json';
 import { setupTsConfig } from './tsconfig-setup';
 import { writeConfigOverrides } from './write-config-overrides';
 
@@ -39,8 +40,10 @@ export async function createNxWorkspaceForReact() {
   addDevDependency(`@nrwl/workspace`);
   const output = require('@nrwl/workspace/src/utils/output').output;
   output.log({ title: '🐳 Nx initialization' });
+
+  const reactAppName = readNameFromPackageJson();
   execSync(
-    `npx create-nx-workspace temp-workspace --appName=webapp --preset=react --style=css --nx-cloud`
+    `npx create-nx-workspace temp-workspace --appName=${reactAppName} --preset=react --style=css --nx-cloud`
   );
 
   const P = ['\\', '|', '/', '-'];
@@ -60,13 +63,13 @@ export async function createNxWorkspaceForReact() {
 
   output.log({ title: '🧹 Clearing unused files' });
   execSync(
-    `rm -rf temp-workspace/apps/webapp/* temp-workspace/apps/webapp/{.babelrc,.browserslistrc} node_modules`
+    `rm -rf temp-workspace/apps/${reactAppName}/* temp-workspace/apps/${reactAppName}/{.babelrc,.browserslistrc} node_modules`
   );
   execSync(`git status`);
 
   output.log({ title: '🚚 Moving your React app in your new Nx workspace' });
   execSync(
-    `mv ./{README.md,package.json,src,public} temp-workspace/apps/webapp`
+    `mv ./{README.md,package.json,src,public} temp-workspace/apps/${reactAppName}`
   );
   process.chdir(`temp-workspace/`);
 

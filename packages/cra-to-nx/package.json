@@ -12,6 +12,6 @@
   },
   "dependencies": {
     "tslib": "2.1.0",
-    "@nrwl/workspace": "^11.0.0"
+    "@nrwl/workspace": "11.2.0"
   }
 }
