@@ -1,23 +1,23 @@
 import { execSync } from 'child_process';
 
-export function addCRACommandsToWorkspaceJson() {
+export function addCRACommandsToWorkspaceJson(appName: string) {
   execSync(`nx g @nrwl/workspace:run-commands serve \
-    --project webapp \
+    --project ${appName} \
     --command "node ../../node_modules/.bin/react-app-rewired start" \
-    --cwd "apps/webapp"`);
+    --cwd "apps/${appName}"`);
 
   execSync(`nx g @nrwl/workspace:run-commands build \
-    --project webapp \
+    --project ${appName} \
     --command "node ../../node_modules/.bin/react-app-rewired build" \
-    --cwd "apps/webapp"`);
+    --cwd "apps/${appName}"`);
 
   execSync(`nx g @nrwl/workspace:run-commands lint \
-    --project webapp \
+    --project ${appName} \
     --command "node ../../node_modules/.bin/eslint src/**/*.tsx src/**/*.ts" \
-    --cwd "apps/webapp"`);
+    --cwd "apps/${appName}"`);
 
   execSync(`nx g @nrwl/workspace:run-commands test \
-    --project webapp \
+    --project ${appName} \
     --command "node ../../node_modules/.bin/react-app-rewired test --watchAll=false" \
-    --cwd "apps/webapp"`);
+    --cwd "apps/${appName}"`);
 }

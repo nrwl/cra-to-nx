@@ -3,6 +3,7 @@ import { fileExists } from '@nrwl/workspace/src/utilities/fileutils';
 const fs = require('fs');
 
 export function readNameFromPackageJson(): string {
+  console.log('called again');
   let appName = 'webapp';
   if (fileExists('package.json')) {
     const data = fs.readFileSync('package.json');

@@ -75,11 +75,11 @@ export async function createNxWorkspaceForReact() {
 
   output.log({ title: '🤹 Add CRA commands to workspace.json' });
 
-  addCRACommandsToWorkspaceJson();
+  addCRACommandsToWorkspaceJson(reactAppName);
 
   output.log({ title: '🧑‍🔧 Customize webpack' });
 
-  writeConfigOverrides();
+  writeConfigOverrides(reactAppName);
 
   output.log({
     title: '🛬 Skip CRA preflight check since Nx manages the monorepo',
@@ -105,20 +105,19 @@ export async function createNxWorkspaceForReact() {
   output.log({ title: '📃 Add tsconfig files for jest and eslint' });
   output.log({ title: '📃 Disable react/react-in-jsx-scope eslint rule' });
 
-  setupTsConfig();
+  setupTsConfig(reactAppName);
 
   output.log({ title: '🙂 Please be patient, one final step remaining!' });
 
   output.log({
     title: '🧶 Adding npm packages to your new Nx workspace to support CRA',
   });
-  execSync(
-    `${
-      isYarn() ? 'yarn add --dev' : 'npm i --save-dev'
-    } react-scripts @testing-library/jest-dom eslint-config-react-app react-app-rewired web-vitals`
-  );
 
-  addDependency('web-vitals');
+  addDevDependency('react-scripts');
+  addDevDependency('@testing-library/jest-dom');
+  addDevDependency('eslint-config-react-app');
+  addDevDependency('react-app-rewired');
+  addDevDependency('web-vitals');
 
   output.log({
     title: '🎉 Done!',

@@ -72,50 +72,50 @@ const defaultEsLintRc = {
 //   }
 // }
 
-export function setupTsConfig() {
-  if (fileExists('apps/webapp/tsconfig.json')) {
-    const json = require('apps/webapp/tsconfig.json');
+export function setupTsConfig(appName: string) {
+  if (fileExists(`apps/${appName}/tsconfig.json`)) {
+    const json = require(`apps/${appName}/tsconfig.json`);
     json.extends = '../../tsconfig.base.json';
     fs.writeFileSync(
-      'apps/webapp/tsconfig.json',
+      `apps/${appName}/tsconfig.json`,
       JSON.stringify(json, null, 2)
     );
   } else {
     fs.writeFileSync(
-      'apps/webapp/tsconfig.json',
+      `apps/${appName}/tsconfig.json`,
       JSON.stringify(defaultTsConfig, null, 2)
     );
   }
 
-  if (fileExists('apps/webapp/tsconfig.app.json')) {
-    const json = require('apps/webapp/tsconfig.app.json');
+  if (fileExists(`apps/${appName}/tsconfig.app.json`)) {
+    const json = require(`apps/${appName}/tsconfig.app.json`);
     json.extends = './tsconfig.json';
     fs.writeFileSync(
-      'apps/webapp/tsconfig.app.json',
+      `apps/${appName}/tsconfig.app.json`,
       JSON.stringify(json, null, 2)
     );
   } else {
     fs.writeFileSync(
-      'apps/webapp/tsconfig.app.json',
+      `apps/${appName}/tsconfig.app.json`,
       JSON.stringify(defaultTsConfigApp, null, 2)
     );
   }
 
-  if (fileExists('apps/webapp/tsconfig.spec.json')) {
-    const json = require('apps/webapp/tsconfig.spec.json');
+  if (fileExists(`apps/${appName}/tsconfig.spec.json`)) {
+    const json = require(`apps/${appName}/tsconfig.spec.json`);
     json.extends = './tsconfig.json';
     fs.writeFileSync(
-      'apps/webapp/tsconfig.spec.json',
+      `apps/${appName}/tsconfig.spec.json`,
       JSON.stringify(json, null, 2)
     );
   } else {
     fs.writeFileSync(
-      'apps/webapp/tsconfig.spec.json',
+      `apps/${appName}/tsconfig.spec.json`,
       JSON.stringify(defaultTsConfigSpec, null, 2)
     );
   }
 
-  if (fileExists('apps/webapp/.eslintrc.json')) {
+  if (fileExists(`apps/${appName}/.eslintrc.json`)) {
     const data = fs.readFileSync('.eslintrc.json');
     const json = JSON.parse(data.toString());
     if (json['rules']) {
@@ -126,12 +126,12 @@ export function setupTsConfig() {
       };
     }
     fs.writeFileSync(
-      'apps/webapp/.eslintrc.json',
+      `apps/${appName}/.eslintrc.json`,
       JSON.stringify(json, null, 2)
     );
   } else {
     fs.writeFileSync(
-      'apps/webapp/.eslintrc.json',
+      `apps/${appName}/.eslintrc.json`,
       JSON.stringify(defaultEsLintRc, null, 2)
     );
   }
