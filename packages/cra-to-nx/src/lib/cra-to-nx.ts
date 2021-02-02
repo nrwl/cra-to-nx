@@ -37,6 +37,10 @@ function addDependency(dep: string) {
 }
 
 export async function createNxWorkspaceForReact() {
+  /**
+   * Here check for uncommitted files
+   */
+
   addDevDependency(`@nrwl/workspace`);
   const output = require('@nrwl/workspace/src/utils/output').output;
   output.log({ title: '🐳 Nx initialization' });
@@ -65,7 +69,6 @@ export async function createNxWorkspaceForReact() {
   execSync(
     `rm -rf temp-workspace/apps/${reactAppName}/* temp-workspace/apps/${reactAppName}/{.babelrc,.browserslistrc} node_modules`
   );
-  execSync(`git status`);
 
   output.log({ title: '🚚 Moving your React app in your new Nx workspace' });
   execSync(
