@@ -22,9 +22,9 @@ function isYarn() {
 function addDependency(dep: string, dev?: boolean) {
   output.log({ title: `📦 Adding dependency: ${dep}` });
   if (isYarn()) {
-    execSync(`yarn add ${dev ? '-D ' : ''}${dep}`);
+    execSync(`yarn add ${dev ? '-D ' : ''}${dep}`, { stdio: [0, 1, 2] });
   } else {
-    execSync(`npm i ${dev ? '--save-dev ' : ''}${dep}`);
+    execSync(`npm i ${dev ? '--save-dev ' : ''}${dep}`, { stdio: [0, 1, 2] });
   }
 }
 
