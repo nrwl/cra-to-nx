@@ -16,23 +16,13 @@ function isYarn() {
   }
 }
 
-function addDevDependency(dep: string) {
+function addDependency(dep: string, dev?: boolean) {
   const output = require('@nrwl/workspace/src/utils/output').output;
   output.log({ title: `📦 Adding dependency: ${dep}` });
   if (isYarn()) {
-    execSync(`yarn add -D ${dep}`);
+    execSync(`yarn add ${dev ? '-D ' : ''}${dep}`);
   } else {
-    execSync(`npm i --save-dev ${dep}`);
-  }
-}
-
-function addDependency(dep: string) {
-  const output = require('@nrwl/workspace/src/utils/output').output;
-  output.log({ title: `📦 Adding dependency: ${dep}` });
-  if (isYarn()) {
-    execSync(`yarn add ${dep}`);
-  } else {
-    execSync(`npm i ${dep}`);
+    execSync(`npm i ${dev ? '--save-dev ' : ''}${dep}`);
   }
 }
 
@@ -41,7 +31,7 @@ export async function createNxWorkspaceForReact() {
    * Here check for uncommitted files
    */
 
-  addDevDependency(`@nrwl/workspace`);
+  addDependency(`@nrwl/workspace`, true);
   const output = require('@nrwl/workspace/src/utils/output').output;
   output.log({ title: '🐳 Nx initialization' });
 
@@ -49,17 +39,6 @@ export async function createNxWorkspaceForReact() {
   execSync(
     `npx create-nx-workspace temp-workspace --appName=${reactAppName} --preset=react --style=css --nx-cloud`
   );
-
-  const P = ['\\', '|', '/', '-'];
-  let x = 0;
-  const loader = setInterval(() => {
-    process.stdout.write(`\r${P[x++]}`);
-    x %= P.length;
-  }, 250);
-
-  setTimeout(() => {
-    clearInterval(loader);
-  }, 5000);
 
   execSync(`git restore .gitignore README.md package.json`);
 
@@ -116,11 +95,11 @@ export async function createNxWorkspaceForReact() {
     title: '🧶 Adding npm packages to your new Nx workspace to support CRA',
   });
 
-  addDevDependency('react-scripts');
-  addDevDependency('@testing-library/jest-dom');
-  addDevDependency('eslint-config-react-app');
-  addDevDependency('react-app-rewired');
-  addDevDependency('web-vitals');
+  addDependency('react-scripts', true);
+  addDependency('@testing-library/jest-dom', true);
+  addDependency('eslint-config-react-app', true);
+  addDependency('react-app-rewired', true);
+  addDependency('web-vitals', true);
 
   output.log({
     title: '🎉 Done!',
