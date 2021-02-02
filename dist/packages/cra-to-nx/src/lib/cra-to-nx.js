@@ -3,6 +3,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createNxWorkspaceForReact = void 0;
 const tslib_1 = require("tslib");
+const fileutils_1 = require("@nrwl/workspace/src/utilities/fileutils");
 const output_1 = require("@nrwl/workspace/src/utilities/output");
 const child_process_1 = require("child_process");
 const fs_extra_1 = require("fs-extra");
@@ -36,12 +37,12 @@ function createNxWorkspaceForReact() {
         output_1.output.log({ title: '🐳 Nx initialization' });
         const reactAppName = read_name_from_package_json_1.readNameFromPackageJson();
         child_process_1.execSync(`npx create-nx-workspace temp-workspace --appName=${reactAppName} --preset=react --style=css --nx-cloud`, { stdio: [0, 1, 2] });
-        child_process_1.execSync(`git restore .gitignore README.md package.json`);
+        child_process_1.execSync(`git restore .gitignore README.md package.json tsconfig.json`);
         output_1.output.log({ title: '👋 Welcome to Nx!' });
         output_1.output.log({ title: '🧹 Clearing unused files' });
         child_process_1.execSync(`rm -rf temp-workspace/apps/${reactAppName}/* temp-workspace/apps/${reactAppName}/{.babelrc,.browserslistrc} node_modules`, { stdio: [0, 1, 2] });
         output_1.output.log({ title: '🚚 Moving your React app in your new Nx workspace' });
-        child_process_1.execSync(`mv ./{README.md,package.json,src,public} temp-workspace/apps/${reactAppName}`, { stdio: [0, 1, 2] });
+        child_process_1.execSync(`mv ./{README.md,package.json,src,public${fileutils_1.fileExists(`tsconfig.json` ? ',tsconfig.json' : '')}} temp-workspace/apps/${reactAppName}`, { stdio: [0, 1, 2] });
         process.chdir(`temp-workspace/`);
         output_1.output.log({ title: '🤹 Add CRA commands to workspace.json' });
         add_cra_commands_to_nx_1.addCRACommandsToWorkspaceJson(reactAppName);

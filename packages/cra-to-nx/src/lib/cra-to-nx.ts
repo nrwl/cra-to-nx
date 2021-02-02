@@ -52,9 +52,9 @@ export async function createNxWorkspaceForReact() {
 
   output.log({ title: '🚚 Moving your React app in your new Nx workspace' });
   execSync(
-    `mv ./{README.md,package.json,src,public${fileExists(
-      `tsconfig.json` ? ',tsconfig.json' : ''
-    )}} temp-workspace/apps/${reactAppName}`,
+    `mv ./{README.md,package.json,src,public${
+      fileExists(`tsconfig.json`) ? ',tsconfig.json' : ''
+    }} temp-workspace/apps/${reactAppName}`,
     { stdio: [0, 1, 2] }
   );
   process.chdir(`temp-workspace/`);
@@ -116,6 +116,18 @@ export async function createNxWorkspaceForReact() {
       ` `,
       `Prefer watching videos? Check out this free Nx course on Egghead.io.`,
       `https://egghead.io/playlists/scale-react-development-with-nx-4038`,
+    ],
+  });
+
+  output.note({
+    title: 'Or, you can try the commands!',
+    bodyLines: [
+      `nx serve ${reactAppName}`,
+      `nx build ${reactAppName}`,
+      `nx lint ${reactAppName}`,
+      `nx test ${reactAppName}`,
+      ` `,
+      `https://nx.dev/latest/react/migration/migration-cra#10-try-the-commands`,
     ],
   });
 }
