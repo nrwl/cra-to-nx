@@ -1,3 +1,5 @@
+import { fileExists } from '@nrwl/workspace/src/utilities/fileutils';
+
 const fs = require('fs');
 
 const defaultTsConfig = {
@@ -62,13 +64,13 @@ const defaultEsLintRc = {
   },
 };
 
-function fileExists(filePath) {
-  try {
-    return fs.statSync(filePath).isFile();
-  } catch (err) {
-    return false;
-  }
-}
+// function fileExists(filePath) {
+//   try {
+//     return fs.statSync(filePath).isFile();
+//   } catch (err) {
+//     return false;
+//   }
+// }
 
 export function setupTsConfig() {
   if (fileExists('apps/webapp/tsconfig.json')) {
