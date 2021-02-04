@@ -104,6 +104,7 @@ export async function createNxWorkspaceForReact() {
   addDependency('eslint-config-react-app', true);
   addDependency('react-app-rewired', true);
   addDependency('web-vitals', true);
+  addDependency('jest-watch-typeahead', true); // Only for ts apps?
 
   output.log({
     title: '🎉 Done!',
