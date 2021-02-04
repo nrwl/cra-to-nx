@@ -90,6 +90,7 @@ export async function createNxWorkspaceForReact() {
   output.log({ title: "📃 Extend the app's tsconfig.json from the base" });
   output.log({ title: '📃 Add tsconfig files for jest and eslint' });
   output.log({ title: '📃 Disable react/react-in-jsx-scope eslint rule' });
+  output.log({ title: '📃 Setup app-specific eslint' });
 
   setupTsConfig(reactAppName);
 
