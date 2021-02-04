@@ -66,6 +66,17 @@ function setupTsConfig(appName) {
         const data = fs.readFileSync(`apps/${appName}/tsconfig.json`);
         const json = JSON.parse(data.toString());
         json.extends = '../../tsconfig.base.json';
+        if (json.compilerOptions) {
+            json.compilerOptions.jsx = 'react';
+        }
+        else {
+            json.compilerOptions = {
+                jsx: 'react',
+                allowJs: true,
+                esModuleInterop: true,
+                allowSyntheticDefaultImports: true,
+            };
+        }
         fs.writeFileSync(`apps/${appName}/tsconfig.json`, JSON.stringify(json, null, 2));
     }
     else {

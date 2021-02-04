@@ -4,7 +4,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const tslib_1 = require("tslib");
 const cra_to_nx_1 = require("./lib/cra-to-nx");
 tslib_1.__exportStar(require("./lib/cra-to-nx"), exports);
-console.log('Commencing the package action');
 cra_to_nx_1.createNxWorkspaceForReact()
     .then(() => {
     process.exit(0);

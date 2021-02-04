@@ -3,8 +3,6 @@ import { createNxWorkspaceForReact } from './lib/cra-to-nx';
 
 export * from './lib/cra-to-nx';
 
-console.log('Commencing the package action');
-
 createNxWorkspaceForReact()
   .then(() => {
     process.exit(0);
