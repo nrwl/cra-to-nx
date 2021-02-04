@@ -35,7 +35,8 @@
             "packageJson": "packages/cra-to-nx/package.json",
             "main": "packages/cra-to-nx/src/index.ts",
             "assets": [
-              "packages/cra-to-nx/*.md"
+              "packages/cra-to-nx/*.md",
+              "packages/cra-to-nx/LICENSE"
             ]
           }
         },
