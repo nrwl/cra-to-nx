@@ -1,94 +1,56 @@
+# CRA - to - Nx
 
+This package will help you turn your React app into an [Nx workspace](https://nx.dev/). To use this package, your React app must have been generated and kept the structure of [Create-React-App](https://reactjs.org/docs/create-a-new-react-app.html), with files generated either in js/jsx or ts/tsx.
 
-# CraToNxWorkspace
+This tool follows the steps described in this [migration guide](https://nx.dev/latest/react/migration/migration-cra), with some enhancements.
 
-This project was generated using [Nx](https://nx.dev).
+It will, essentially, generate a new Nx workspace, and then place your existing CRA React app in the `apps` directory of the Nx workspace, while configuring the Nx workspace as needed.
 
-<p align="center"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="450"></p>
+## Before starting
 
-🔎 **Nx is a set of Extensible Dev Tools for Monorepos.**
+As this package will change your folder structure and edit some of your files, you must commit any local changes you have, to start with clean history. In any case, to protect you, the package will exit if there are local uncommited changes.
 
-## Adding capabilities to your workspace
+## How to use
 
-Nx supports many plugins which add capabilities for developing different types of applications and different tools.
+Go to your CRA React app directory and run the following command:
 
-These capabilities include generating applications, libraries, etc as well as the devtools to test, and build projects as well.
+```
+npx cra-to-nx
+```
 
-Below are our core plugins:
+Then just sit back and wait. After a while you will be able to take advantage of the [full magic of Nx](https://nx.dev/latest/react/getting-started/getting-started).
 
-- [React](https://reactjs.org)
-  - `npm install --save-dev @nrwl/react`
-- Web (no framework frontends)
-  - `npm install --save-dev @nrwl/web`
-- [Angular](https://angular.io)
-  - `npm install --save-dev @nrwl/angular`
-- [Nest](https://nestjs.com)
-  - `npm install --save-dev @nrwl/nest`
-- [Express](https://expressjs.com)
-  - `npm install --save-dev @nrwl/express`
-- [Node](https://nodejs.org)
-  - `npm install --save-dev @nrwl/node`
+## Ok, it's done, what do I do now?
 
-There are also many [community plugins](https://nx.dev/nx-community) you could add.
+### Run, build, lint, test
 
-## Generate an application
+Following the steps in the [migration guide](https://nx.dev/latest/react/migration/migration-cra#10-try-the-commands), you can try the following commands:
 
-Run `nx g @nrwl/react:app my-app` to generate an application.
+```
+nx serve your-app-name
+nx build your-app-name
+nx lint your-app-name
+nx test your-app-name
+```
 
-> You can use any of the plugins above to generate applications as well.
+### Generate code
 
-When using Nx, you can create multiple applications and libraries in the same workspace.
+Take a look at [this guide](https://nx.dev/latest/react/workspace/generators/using-schematics)
 
-## Generate a library
+Or just try generating a library:
 
-Run `nx g @nrwl/react:lib my-lib` to generate a library.
+```
+nx generate lib ui-button
+```
 
-> You can also use any of the plugins above to generate libraries as well.
+### Courses, guides, docs
 
-Libraries are shareable across libraries and applications. They can be imported from `@cra-to-nx-workspace/mylib`.
+- [Follow the Nx React tutorial](https://nx.dev/react/tutorial/01-create-application)
 
-## Development server
+- [Free Nx course on Egghead.io](https://egghead.io/playlists/scale-react-development-with-nx-4038)
 
-Run `nx serve my-app` for a dev server. Navigate to http://localhost:4200/. The app will automatically reload if you change any of the source files.
+- Or just use the VS Code Nx Extension, [Nx Console](https://nx.dev/latest/react/getting-started/console) to do all these using a UI.
 
-## Code scaffolding
+## So, now I just have my React app in a monorepo?
 
-Run `nx g @nrwl/react:component my-component --project=my-app` to generate a new component.
-
-## Build
-
-Run `nx build my-app` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-
-## Running unit tests
-
-Run `nx test my-app` to execute the unit tests via [Jest](https://jestjs.io).
-
-Run `nx affected:test` to execute the unit tests affected by a change.
-
-## Running end-to-end tests
-
-Run `ng e2e my-app` to execute the end-to-end tests via [Cypress](https://www.cypress.io).
-
-Run `nx affected:e2e` to execute the end-to-end tests affected by a change.
-
-## Understand your workspace
-
-Run `nx dep-graph` to see a diagram of the dependencies of your projects.
-
-## Further help
-
-Visit the [Nx Documentation](https://nx.dev) to learn more.
-
-
-
-## ☁ Nx Cloud
-
-### Computation Memoization in the Cloud
-
-<p align="center"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-cloud-card.png"></p>
-
-Nx Cloud pairs with Nx in order to enable you to build and test code more rapidly, by up to 10 times. Even teams that are new to Nx can connect to Nx Cloud and start saving time instantly.
-
-Teams using Nx gain the advantage of building full-stack applications with their preferred framework alongside Nx’s advanced code generation and project dependency graph, plus a unified experience for both frontend and backend developers.
-
-Visit [Nx Cloud](https://nx.app/) to learn more.
+No. You have your React app in an **Nx workspace**. So you also have the full power of Nx tools. You can watch this [10-minute quick overview](https://youtu.be/sNz-4PUM0k8) if you want to know more.
