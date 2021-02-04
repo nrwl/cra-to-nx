@@ -101,7 +101,7 @@ function setupTsConfig(appName) {
         fs.writeFileSync(`apps/${appName}/tsconfig.spec.json`, JSON.stringify(defaultTsConfigSpec, null, 2));
     }
     if (fileutils_1.fileExists(`apps/${appName}/.eslintrc.json`)) {
-        const data = fs.readFileSync('.eslintrc.json');
+        const data = fs.readFileSync(`apps/${appName}/.eslintrc.json`);
         const json = JSON.parse(data.toString());
         if (json['rules']) {
             json['rules']['react/react-in-jsx-scope'] = 'off';

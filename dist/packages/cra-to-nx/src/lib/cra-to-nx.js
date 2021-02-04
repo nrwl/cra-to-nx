@@ -57,10 +57,11 @@ function createNxWorkspaceForReact() {
         process.chdir(`../`);
         child_process_1.execSync('mv temp-workspace/* ./', { stdio: [0, 1, 2] });
         child_process_1.execSync('mv temp-workspace/{.editorconfig,.env,.eslintrc.json,.gitignore,.prettierignore,.prettierrc,.vscode} ./', { stdio: [0, 1, 2] });
-        // execSync('rm -rf temp-workspace', { stdio: [0, 1, 2] });
+        child_process_1.execSync('rm -rf temp-workspace', { stdio: [0, 1, 2] });
         output_1.output.log({ title: "📃 Extend the app's tsconfig.json from the base" });
         output_1.output.log({ title: '📃 Add tsconfig files for jest and eslint' });
         output_1.output.log({ title: '📃 Disable react/react-in-jsx-scope eslint rule' });
+        output_1.output.log({ title: '📃 Setup app-specific eslint' });
         tsconfig_setup_1.setupTsConfig(reactAppName);
         output_1.output.log({ title: '🙂 Please be patient, one final step remaining!' });
         output_1.output.log({
