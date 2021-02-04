@@ -1,6 +1,6 @@
 # CRA - to - Nx
 
-This package will help you turn your React app into an [Nx workspace](https://nx.dev/). To use this package, your React app must have been generated and kept the structure of [Create-React-App](https://reactjs.org/docs/create-a-new-react-app.html), with files generated either in js/jsx or ts/tsx.
+This package will turn your React app into an [Nx workspace](https://nx.dev/). To use this package, your React app must have been generated and kept the structure of [Create-React-App](https://reactjs.org/docs/create-a-new-react-app.html), with files generated either in js/jsx or ts/tsx.
 
 This tool follows the steps described in this [migration guide](https://nx.dev/latest/react/migration/migration-cra), with some enhancements.
 
@@ -24,7 +24,7 @@ Then just sit back and wait. After a while you will be able to take advantage of
 
 ### Run, build, lint, test
 
-Following the steps in the [migration guide](https://nx.dev/latest/react/migration/migration-cra#10-try-the-commands), you can try the following commands:
+You can try the following commands:
 
 ```
 nx serve your-app-name
