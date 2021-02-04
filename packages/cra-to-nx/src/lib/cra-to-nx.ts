@@ -33,13 +33,28 @@ export async function createNxWorkspaceForReact() {
 
   output.log({ title: '🐳 Nx initialization' });
 
+  let appIsJs = true;
+
+  if (fileExists(`tsconfig.json`)) {
+    console.log('THE APP IS IN TS');
+    appIsJs = false;
+  }
+
   const reactAppName = readNameFromPackageJson();
   execSync(
     `npx create-nx-workspace temp-workspace --appName=${reactAppName} --preset=react --style=css --nx-cloud`,
     { stdio: [0, 1, 2] }
   );
 
-  execSync(`git restore .gitignore README.md package.json tsconfig.json`);
+  /**
+   * The following step will not be needed in the future
+   * https://github.com/nrwl/nx/pull/4678
+   */
+  execSync(
+    `git restore .gitignore README.md package.json${
+      fileExists(`tsconfig.json`) ? ' tsconfig.json' : ''
+    }`
+  );
 
   output.log({ title: '👋 Welcome to Nx!' });
 
@@ -60,7 +75,7 @@ export async function createNxWorkspaceForReact() {
 
   output.log({ title: '🤹 Add CRA commands to workspace.json' });
 
-  addCRACommandsToWorkspaceJson(reactAppName);
+  addCRACommandsToWorkspaceJson(reactAppName, appIsJs);
 
   output.log({ title: '🧑‍🔧 Customize webpack' });
 

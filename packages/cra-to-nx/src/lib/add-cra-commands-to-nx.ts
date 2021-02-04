@@ -1,6 +1,9 @@
 import { execSync } from 'child_process';
 
-export function addCRACommandsToWorkspaceJson(appName: string) {
+export function addCRACommandsToWorkspaceJson(
+  appName: string,
+  appIsJs: boolean
+) {
   execSync(
     `nx g @nrwl/workspace:run-commands serve \
     --project ${appName} \
@@ -20,7 +23,9 @@ export function addCRACommandsToWorkspaceJson(appName: string) {
   execSync(
     `nx g @nrwl/workspace:run-commands lint \
     --project ${appName} \
-    --command "node ../../node_modules/.bin/eslint src/**/*.tsx src/**/*.ts" \
+    --command "node ../../node_modules/.bin/eslint${
+      appIsJs ? '' : ' src/**/*.tsx src/**/*.ts'
+    }" \
     --cwd "apps/${appName}"`,
     { stdio: [0, 1, 2] }
   );

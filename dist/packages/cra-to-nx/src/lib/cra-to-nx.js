@@ -34,9 +34,18 @@ function createNxWorkspaceForReact() {
     return tslib_1.__awaiter(this, void 0, void 0, function* () {
         check_for_uncommitted_changes_1.checkForUncommittedChanges();
         output_1.output.log({ title: '🐳 Nx initialization' });
+        let appIsJs = true;
+        if (fileutils_1.fileExists(`tsconfig.json`)) {
+            console.log('THE APP IS IN TS');
+            appIsJs = false;
+        }
         const reactAppName = read_name_from_package_json_1.readNameFromPackageJson();
         child_process_1.execSync(`npx create-nx-workspace temp-workspace --appName=${reactAppName} --preset=react --style=css --nx-cloud`, { stdio: [0, 1, 2] });
-        child_process_1.execSync(`git restore .gitignore README.md package.json tsconfig.json`);
+        /**
+         * The following step will not be needed in the future
+         * https://github.com/nrwl/nx/pull/4678
+         */
+        child_process_1.execSync(`git restore .gitignore README.md package.json${fileutils_1.fileExists(`tsconfig.json`) ? ' tsconfig.json' : ''}`);
         output_1.output.log({ title: '👋 Welcome to Nx!' });
         output_1.output.log({ title: '🧹 Clearing unused files' });
         child_process_1.execSync(`rm -rf temp-workspace/apps/${reactAppName}/* temp-workspace/apps/${reactAppName}/{.babelrc,.browserslistrc} node_modules`, { stdio: [0, 1, 2] });
@@ -44,7 +53,7 @@ function createNxWorkspaceForReact() {
         child_process_1.execSync(`mv ./{README.md,package.json,src,public${fileutils_1.fileExists(`tsconfig.json`) ? ',tsconfig.json' : ''}} temp-workspace/apps/${reactAppName}`, { stdio: [0, 1, 2] });
         process.chdir(`temp-workspace/`);
         output_1.output.log({ title: '🤹 Add CRA commands to workspace.json' });
-        add_cra_commands_to_nx_1.addCRACommandsToWorkspaceJson(reactAppName);
+        add_cra_commands_to_nx_1.addCRACommandsToWorkspaceJson(reactAppName, appIsJs);
         output_1.output.log({ title: '🧑‍🔧 Customize webpack' });
         write_config_overrides_1.writeConfigOverrides(reactAppName);
         output_1.output.log({

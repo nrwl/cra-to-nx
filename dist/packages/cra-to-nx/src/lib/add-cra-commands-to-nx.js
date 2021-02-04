@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.addCRACommandsToWorkspaceJson = void 0;
 const child_process_1 = require("child_process");
-function addCRACommandsToWorkspaceJson(appName) {
+function addCRACommandsToWorkspaceJson(appName, appIsJs) {
     child_process_1.execSync(`nx g @nrwl/workspace:run-commands serve \
     --project ${appName} \
     --command "node ../../node_modules/.bin/react-app-rewired start" \
@@ -13,7 +13,7 @@ function addCRACommandsToWorkspaceJson(appName) {
     --cwd "apps/${appName}"`, { stdio: [0, 1, 2] });
     child_process_1.execSync(`nx g @nrwl/workspace:run-commands lint \
     --project ${appName} \
-    --command "node ../../node_modules/.bin/eslint src/**/*.tsx src/**/*.ts" \
+    --command "node ../../node_modules/.bin/eslint${appIsJs ? '' : ' src/**/*.tsx src/**/*.ts'}" \
     --cwd "apps/${appName}"`, { stdio: [0, 1, 2] });
     child_process_1.execSync(`nx g @nrwl/workspace:run-commands test \
     --project ${appName} \
