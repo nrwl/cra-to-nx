@@ -1,4 +1,5 @@
 import { fileExists } from '@nrwl/workspace/src/utilities/fileutils';
+import { output } from '@nrwl/workspace/src/utilities/output';
 
 const fs = require('fs');
 
@@ -120,24 +121,23 @@ export function setupTsConfig(appName: string) {
     );
   }
 
-  if (fileExists(`apps/${appName}/.eslintrc.json`)) {
-    const data = fs.readFileSync(`apps/${appName}/.eslintrc.json`);
-    const json = JSON.parse(data.toString());
-    if (json['rules']) {
-      json['rules']['react/react-in-jsx-scope'] = 'off';
-    } else {
-      json.rules = {
-        'react/react-in-jsx-scope': 'off',
-      };
-    }
-    fs.writeFileSync(
-      `apps/${appName}/.eslintrc.json`,
-      JSON.stringify(json, null, 2)
-    );
+  let eslintrc = defaultEsLintRc;
+  const packageJson = JSON.parse(
+    fs.readFileSync(`apps/${appName}/package.json`)
+  );
+
+  output.log({ title: 'package.json check' });
+  // Use existing config if possible
+  if (packageJson.eslintConfig) {
+    output.log({ title: 'package.json exists' });
+    eslintrc = packageJson.eslintConfig;
+    eslintrc.ignorePatterns = ['!**/*'];
   } else {
-    fs.writeFileSync(
-      `apps/${appName}/.eslintrc.json`,
-      JSON.stringify(defaultEsLintRc, null, 2)
-    );
+    output.log({ title: 'package.json does not exists' });
   }
+
+  fs.writeFileSync(
+    `apps/${appName}/.eslintrc.json`,
+    JSON.stringify(eslintrc, null, 2)
+  );
 }

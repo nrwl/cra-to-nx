@@ -1,6 +1,6 @@
-const fs = require('fs');
+import * as fs from 'fs';
 
-export function writeConfigOverrides(appName: string) {
+export function writeConfigOverrides(appName: string, version: number) {
   const configOverride = `
   const path = require('path');
   const TsConfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
@@ -20,6 +20,18 @@ export function writeConfigOverrides(appName: string) {
           mainFields: ['module', 'main'],
         })
       );
+      ${
+        version === 5
+          ? `
+      // Replace include option for babel loader with exclude
+      // so babel will handle workspace projects as well.
+      config.module.rules[1].oneOf.forEach((r) => {
+        if (r.loader && r.loader.indexOf('babel') !== -1) {
+          r.exclude = /node_modules/;
+          delete r.include;
+        }
+      });`
+          : `
       // Replace include option for babel loader with exclude
       // so babel will handle workspace projects as well.
       config.module.rules.forEach((r) => {
@@ -31,6 +43,8 @@ export function writeConfigOverrides(appName: string) {
           delete babelLoader.include;
         }
       });
+      `
+      }
       return config;
     },
     paths: (paths) => {

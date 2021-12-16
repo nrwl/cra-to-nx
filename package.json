@@ -28,14 +28,14 @@
   "private": true,
   "dependencies": {},
   "devDependencies": {
-    "@nrwl/cli": "11.2.0",
-    "@nrwl/eslint-plugin-nx": "11.2.0",
-    "@nrwl/jest": "11.2.0",
-    "@nrwl/linter": "11.2.0",
-    "@nrwl/node": "^11.2.0",
-    "@nrwl/nx-cloud": "latest",
-    "@nrwl/tao": "11.2.0",
-    "@nrwl/workspace": "11.2.0",
+    "@nrwl/cli": "^13.0.0",
+    "@nrwl/eslint-plugin-nx": "^13.0.0",
+    "@nrwl/jest": "^13.0.0",
+    "@nrwl/linter": "^13.0.0",
+    "@nrwl/node": "^13.0.0",
+    "@nrwl/nx-cloud": "^13.0.0",
+    "@nrwl/tao": "^13.0.0",
+    "@nrwl/workspace": "^13.0.0",
     "@types/jest": "26.0.8",
     "@types/node": "12.12.38",
     "@typescript-eslint/eslint-plugin": "4.3.0",
@@ -47,6 +47,7 @@
     "prettier": "2.2.1",
     "ts-jest": "26.4.0",
     "ts-node": "~9.1.1",
-    "typescript": "~4.0.3"
+    "typescript": "^4.5.4",
+    "yargs-parser": "20.0.0"
   }
 }

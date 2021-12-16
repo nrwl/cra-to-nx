@@ -5,6 +5,7 @@ import { execSync } from 'child_process';
 
 import { statSync } from 'fs-extra';
 import { addCRACommandsToWorkspaceJson } from './add-cra-commands-to-nx';
+import { addPostinstallPatch } from './add-postinstall-patch';
 import { checkForUncommittedChanges } from './check-for-uncommitted-changes';
 import { readNameFromPackageJson } from './read-name-from-package-json';
 import { setupTsConfig } from './tsconfig-setup';
@@ -24,11 +25,13 @@ function addDependency(dep: string, dev?: boolean) {
   if (isYarn()) {
     execSync(`yarn add ${dev ? '-D ' : ''}${dep}`, { stdio: [0, 1, 2] });
   } else {
-    execSync(`npm i ${dev ? '--save-dev ' : ''}${dep}`, { stdio: [0, 1, 2] });
+    execSync(`npm i --force ${dev ? '--save-dev ' : ''}${dep}`, {
+      stdio: [0, 1, 2],
+    });
   }
 }
 
-export async function createNxWorkspaceForReact() {
+export async function createNxWorkspaceForReact(opts: Record<string, any>) {
   checkForUncommittedChanges();
 
   output.log({ title: '🐳 Nx initialization' });
@@ -42,7 +45,7 @@ export async function createNxWorkspaceForReact() {
 
   const reactAppName = readNameFromPackageJson();
   execSync(
-    `npx create-nx-workspace temp-workspace --appName=${reactAppName} --preset=react --style=css --nx-cloud`,
+    `npx -y create-nx-workspace@latest temp-workspace --appName=${reactAppName} --preset=react --style=css --nx-cloud`,
     { stdio: [0, 1, 2] }
   );
 
@@ -59,10 +62,16 @@ export async function createNxWorkspaceForReact() {
   output.log({ title: '👋 Welcome to Nx!' });
 
   output.log({ title: '🧹 Clearing unused files' });
+  execSync(`cp temp-workspace/apps/${reactAppName}/project.json .`, {
+    stdio: [0, 1, 2],
+  });
   execSync(
     `rm -rf temp-workspace/apps/${reactAppName}/* temp-workspace/apps/${reactAppName}/{.babelrc,.browserslistrc} node_modules`,
     { stdio: [0, 1, 2] }
   );
+  execSync(`cp project.json temp-workspace/apps/${reactAppName}/project.json`, {
+    stdio: [0, 1, 2],
+  });
 
   output.log({ title: '🚚 Moving your React app in your new Nx workspace' });
   execSync(
@@ -79,7 +88,7 @@ export async function createNxWorkspaceForReact() {
 
   output.log({ title: '🧑‍🔧 Customize webpack' });
 
-  writeConfigOverrides(reactAppName);
+  writeConfigOverrides(reactAppName, opts.craVersion);
 
   output.log({
     title: '🛬 Skip CRA preflight check since Nx manages the monorepo',
@@ -109,6 +118,8 @@ export async function createNxWorkspaceForReact() {
 
   setupTsConfig(reactAppName);
 
+  addPostinstallPatch();
+
   output.log({ title: '🙂 Please be patient, one final step remaining!' });
 
   output.log({
@@ -121,6 +132,8 @@ export async function createNxWorkspaceForReact() {
   addDependency('react-app-rewired', true);
   addDependency('web-vitals', true);
   addDependency('jest-watch-typeahead', true); // Only for ts apps?
+  // Patch buggy package
+  execSync('node tools/scripts/patch-react-app-rewired.js')
 
   output.log({
     title: '🎉 Done!',
