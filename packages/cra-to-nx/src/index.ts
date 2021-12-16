@@ -1,9 +1,15 @@
 #!/usr/bin/env node
+import yargsParser = require('yargs-parser');
 import { createNxWorkspaceForReact } from './lib/cra-to-nx';
-
 export * from './lib/cra-to-nx';
 
-createNxWorkspaceForReact()
+const parsedArgs = yargsParser(process.argv, {
+  default: {
+    craVersion: 5,
+  },
+});
+
+createNxWorkspaceForReact(parsedArgs)
   .then(() => {
     process.exit(0);
   })

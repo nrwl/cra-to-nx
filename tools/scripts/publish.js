@@ -15,13 +15,14 @@ function updatePackageJson(packageJsonPath, version) {
 }
 
 function getProject(project) {
-  const workspaceJson = JSON.parse(readFileSync('workspace.json').toString());
-  return workspaceJson.projects[project];
+  return JSON.parse(
+    readFileSync(join('packages', project, 'project.json')).toString()
+  );
 }
 
 const [_, _2, project] = process.argv;
-const version = process.env.VERSION
-const tag = process.env.TAG || 'next'
+const version = process.env.VERSION;
+const tag = process.env.TAG || 'next';
 
 if (!project) {
   throw new Error('Need the project');
