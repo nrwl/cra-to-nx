@@ -1,3 +1,5 @@
+> :warning: `cra-to-nx` has been moved to https://github.com/nrwl/nx, this repository is historical code. Issues should be filed on the main Nx repo.
+
 # CRA - to - Nx
 
 This package will turn your React app into an [Nx workspace](https://nx.dev/). To use this package, your React app must have been generated and kept the structure of [Create-React-App](https://reactjs.org/docs/create-a-new-react-app.html), with files generated either in js/jsx or ts/tsx.
